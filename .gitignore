@@ -1,0 +1,12 @@
+# 实习相关笔记与材料，不纳入本仓库
+/实习/
+
+# Obsidian 本地工作区状态（每台机器不同，无需共享）
+**/.obsidian/workspace.json
+**/.obsidian/workspace-mobile.json
+
+# 系统与临时文件
+Thumbs.db
+desktop.ini
+.DS_Store
+*.tmp
