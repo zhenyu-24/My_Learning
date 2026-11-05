@@ -91,3 +91,36 @@ nvm current             # 当前版本
 
 > [!tip] 模型放哪
 > 大模型放 `models/checkpoints`，LoRA 放 `models/loras`，VAE 放 `models/vae`。放错目录节点里就选不到。
+
+## magpie
+
+**定位**：给 Claude Code、Codex、Gemini CLI 等编程 Agent **在一处切换模型**的本地网关工具。官网 <https://usemagpie.ai/zh/>。
+
+**能干什么**
+
+- 供应商（DeepSeek、Kimi、GLM、Qwen、OpenRouter、Ollama，以及已付费的 Claude / ChatGPT 订阅）只需添加一次，之后在 Codex、Claude Code、Gemini CLI 或任何 Agent 里一键选用
+- 在本地跑一个网关（默认 `127.0.0.1:3425`），同时会说 OpenAI Chat / Responses、Anthropic Messages、Google Gemini 三种协议，并在两个方向上互转——流式输出、工具调用、推理过程都会转
+- 只改写目标 Agent 配置里的那**一项**（`settings.json`、`config.toml`、`config.yaml` 的注释、顺序、缩进都原样保留，写入是原子的），下次会话即生效
+- Codex 的 `/model` 列表会直接出现新模型；Claude Code 的 `opus` / `sonnet` / `haiku` 可以映射到 Kimi、GLM 或 GPT；选回「原生模型」时把配置原样恢复
+- 支持保存「方案」：一次切换所有 Agent，例如「省钱」「专注」
+- 订阅共享：在某个 Agent 里登录过的账号会变成一个供应商，其他 Agent 也能用它的模型，令牌仍按原 Agent 的方式刷新
+- 支持按账号做负载与故障转移（智能 / 按顺序 / 轮流 / 用量少的优先），某个账号 429、余额不足或出错时自动换下一个
+
+**下载**
+
+- 官网（中文）：<https://usemagpie.ai/zh/> → 点「下载」，页面会按系统给出对应安装包
+- GitHub Releases：<https://github.com/yetone/magpie-releases/releases/latest>
+  - Windows：`magpie-windows-amd64.exe`（ARM 机器选 `arm64`）
+  - macOS：`magpie-darwin-arm64.dmg`（Intel 选 `amd64`）
+  - Linux：`magpie-linux-amd64`
+  - 命令行版：`magpie-cli-*`，同页面下载
+- 终端脚本安装（macOS / Linux）：页面提供 `curl -fsSL https://usemagpie.ai/install.sh | sh`
+
+> [!warning] 和窗口放大工具同名
+> GitHub 上还有一个 `Blinue/Magpie`，那是 Windows 的窗口超分放大工具，和这个完全无关。认准 `usemagpie.ai` 和 `yetone/magpie`。
+
+> [!tip] 先选「原生模型」再逐步替换
+> 刚装好先把某个 Agent 设回原生模型，确认网关不影响正常使用，再逐个换成第三方模型。这样出问题时容易判断是网关还是模型本身。
+
+> [!warning] 密钥仍在自己机器上
+> 网关跑在本地，API Key 存在本机配置里。别把配置文件（含 `settings.json`、`config.toml`）提交到 Git 仓库。
